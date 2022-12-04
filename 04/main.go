@@ -57,25 +57,12 @@ func partTwo(scanner *bufio.Scanner) int {
 }
 
 func assignmentsContain(a1 Assignment, a2 Assignment) bool {
-	minFrom := min(a1.from, a2.from)
-	maxTo := max(a1.to, a2.to)
-
-	if a1.from == minFrom && a1.to == maxTo {
-		return true
-	}
-
-	if a2.from == minFrom && a2.to == maxTo {
-		return true
-	}
-
-	return false
+	return a2.from <= a1.from && a1.to <= a2.to ||
+		a1.from <= a2.from && a2.to <= a1.to
 }
 
 func assignmentsOverlap(a1 Assignment, a2 Assignment) bool {
-	maxFrom := max(a1.from, a2.from)
-	minTo := min(a1.to, a2.to)
-
-	return maxFrom <= minTo
+	return a2.from <= a1.to && a1.from <= a2.to
 }
 
 func makeAssignment(assignmentStr string) Assignment {
@@ -88,20 +75,4 @@ func makeAssignment(assignmentStr string) Assignment {
 	}
 
 	return Assignment{partInts[0], partInts[1]}
-}
-
-// Max returns the larger of x or y.
-func max(x, y int) int {
-	if x < y {
-		return y
-	}
-	return x
-}
-
-// Min returns the smaller of x or y.
-func min(x, y int) int {
-	if x > y {
-		return y
-	}
-	return x
 }
